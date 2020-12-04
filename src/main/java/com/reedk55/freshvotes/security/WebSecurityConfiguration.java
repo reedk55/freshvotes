@@ -23,19 +23,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .passwordEncoder(getPasswordEncoder())
                 .withUser("user")
-                .password(getPasswordEncoder().encode("password"))
+                .password(getPasswordEncoder().encode("password1"))
                 .roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
                 .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/dashboard")
                 .permitAll()
                 .and()
                 .logout()
